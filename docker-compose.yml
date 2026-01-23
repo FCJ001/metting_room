@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: meeting_room_mysql
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: meeting_room
+    volumes:
+      - meeting_room_mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7
+    container_name: meeting_room_redis
+    restart: always
+    ports:
+      - "6380:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - meeting_room_redis_data:/data
+
+volumes:
+  meeting_room_mysql_data:
+  meeting_room_redis_data:
