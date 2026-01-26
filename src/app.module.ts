@@ -6,9 +6,22 @@ import { AppService } from './app.service';
 import { RedisModule } from './redis/redis.module';
 import { UserModule } from './user/user.module';
 import { EmailModule } from './email/email.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
+    JwtModule.registerAsync({
+      global: true,
+      useFactory(configService: ConfigService) {
+        return {
+          secret: configService.get('jwt_secret'),
+          signOptions: {
+            expiresIn: '30m', // 默认 30 分钟
+          },
+        };
+      },
+      inject: [ConfigService],
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
