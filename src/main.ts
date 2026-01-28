@@ -13,12 +13,12 @@ async function bootstrap() {
   app.useGlobalInterceptors(new InvokeRecordInterceptor());
   app.useGlobalFilters(new CustomExceptionFilter());
   const config = new DocumentBuilder()
-    .setTitle('Meeting Room Booking System')
-    .setDescription('The Meeting Room Booking System API description')
+    .setTitle('会议室预定系统')
+    .setDescription('接口文档 会议室预定系统 API')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document);
+  SwaggerModule.setup('api-doc', app, document);
 
   await app.listen(process.env.PORT ?? 3000);
 }

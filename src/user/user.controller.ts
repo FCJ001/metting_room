@@ -21,7 +21,9 @@ import { RedisService } from 'src/redis/redis.service';
 import { EmailService } from 'src/email/email.service';
 import { UpdateUserDto } from './dto/udpate-user.dto';
 import { generateParseIntPipe } from 'src/utils';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('用户管理模块')
 @Controller('user')
 export class UserController {
   constructor(
