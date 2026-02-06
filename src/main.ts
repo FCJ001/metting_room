@@ -12,6 +12,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new FormatResponseInterceptor());
   app.useGlobalInterceptors(new InvokeRecordInterceptor());
   app.useGlobalFilters(new CustomExceptionFilter());
+  app.enableCors();
   const config = new DocumentBuilder()
     .setTitle('会议室预定系统')
     .setDescription('接口文档 会议室预定系统 API')

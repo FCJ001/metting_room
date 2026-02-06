@@ -137,7 +137,7 @@ export class UserService {
     return user;
   }
 
-  async updatePassword(userId: number, passwordDto: UpdateUserPasswordDto) {
+  async updatePassword(passwordDto: UpdateUserPasswordDto) {
     const captcha = await this.redisService.get(
       `update_password_captcha_${passwordDto.email}`,
     );
@@ -151,11 +151,11 @@ export class UserService {
     }
 
     const foundUser = await this.userRepository.findOneBy({
-      id: userId,
+      username: passwordDto.username,
     });
 
-    if (!foundUser) {
-      throw new HttpException('用户不存在', HttpStatus.BAD_REQUEST);
+    if (!(foundUser instanceof User) || foundUser.email !== passwordDto.email) {
+      throw new HttpException('邮箱不正确', HttpStatus.BAD_REQUEST);
     }
 
     foundUser.password = md5(passwordDto.password);
@@ -164,11 +164,10 @@ export class UserService {
       await this.userRepository.save(foundUser);
       return '密码修改成功';
     } catch (e) {
-      console.error(e);
+      console.log(e);
       return '密码修改失败';
     }
   }
-
   async update(userId: number, updateUserDto: UpdateUserDto) {
     const captcha = await this.redisService.get(
       `update_user_captcha_${updateUserDto.email}`,
